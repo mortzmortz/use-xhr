@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   accepts,
   getFilesFromEvent as defaultGetFilesFromEvent,
@@ -681,21 +680,6 @@ function useXhr({
     inputRef,
   };
 }
-
-useXhr.propTypes = {
-  getUploadParams: PropTypes.func,
-  getChunkName: PropTypes.func,
-  getFilesFromEvent: PropTypes.func,
-  accept: PropTypes.string,
-  multiple: PropTypes.bool,
-  minSizeBytes: PropTypes.number.isRequired,
-  maxSizeBytes: PropTypes.number.isRequired,
-  maxFiles: PropTypes.number.isRequired,
-  validate: PropTypes.func,
-  autoUpload: PropTypes.bool,
-  timeout: PropTypes.number,
-  chunkSize: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-};
 
 function fileReducer(files, action) {
   switch (action.type) {

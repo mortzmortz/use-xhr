@@ -17,5 +17,12 @@ export default {
     },
   ],
   external: [...Object.keys(pkg.devDependencies)],
-  plugins: [resolve(), commonjs(), babel(), terser()],
+  plugins: [
+    resolve({
+      browser: true,
+    }),
+    commonjs(),
+    babel(),
+    terser(),
+  ],
 };
