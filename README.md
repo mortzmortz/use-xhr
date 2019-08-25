@@ -3,7 +3,7 @@
 </h1>
 
 <details>
-<summary>📖 Table of Contents</summary>
+<summary>📒 Table of Contents</summary>
 <p>
 
 - [Getting Started](#getting-started)
@@ -48,31 +48,28 @@ Please note that `use-xhr` requires `react@^16.8.0` as a peer dependency.
 ### Basic Usage
 
 ```jsx
-import useXhr from 'useXhr';
+import useXhr from "useXhr";
 
 function Upload({ url }) {
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive
-  } = useXhr({
+  const { getRootProps, getInputProps, isDragActive } = useXhr({
     getUploadParams: { url }
   });
 
   return (
     <div {...getRootProps()}>
       <input {...getInputProps()} />
-      {
-        isDragActive ?
-          <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
-      }
+      {isDragActive ? (
+        <p>Drop the files here ...</p>
+      ) : (
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      )}
     </div>
   );
 }
 ```
 
 ## API
+
 And their default values.
 
 ```js
@@ -124,66 +121,82 @@ function Upload() {
 ### Props and Methods
 
 #### `accept: String`
-  Set accepted file types. See https://github.com/okonet/attr-accept for more information. Keep in mind that mime type determination is not reliable across platforms.
+
+Set accepted file types. See https://github.com/okonet/attr-accept for more information. Keep in mind that mime type determination is not reliable across platforms.
 
 #### `autoUpload: Boolean`
-  If set to **true**, files will be uploaded instantly after adding them. Otherwise you can trigger an upload manually by firing the `restart` method on the `file`object.
+
+If set to **true**, files will be uploaded instantly after adding them. Otherwise you can trigger an upload manually by firing the `restart` method on the `file`object.
 
 #### `chunks: Boolean`
-  If set to **true** uploaded files will be split into chunks.
+
+If set to **true** uploaded files will be split into chunks.
 
 #### `chunkSize: Number`
-  Size of single chunk (in bytes).
+
+Size of single chunk (in bytes).
 
 #### `disabled: Boolean`
-  Enable/disable upload.
+
+Enable/disable upload.
 
 #### `getChunkName: Function`
-  **Argumens**: fileWithMeta, chunkIndex
 
-  Use this to provide a custom name for each chunk.
+**Argumens**: fileWithMeta, chunkIndex
+
+Use this to provide a custom name for each chunk.
 
 #### `getFilesFromEvent: Function`
-  **Argumens**: event
 
-  Use this to provide a custom file aggregator.
+**Argumens**: event
+
+Use this to provide a custom file aggregator.
 
 #### `getUploadParams: Function`
-  **Argumens**: fileWithMeta
 
-  A callback that receives a `fileWithMeta` object and returns the params needed to upload the file.This prop is **required** to initiate `useXhr`.
+**Argumens**: fileWithMeta
 
-  It should return an object with `{ url (string), method (string), body, fields (object), headers (object), meta (object) }`.
+A callback that receives a `fileWithMeta` object and returns the params needed to upload the file.This prop is **required** to initiate `useXhr`.
 
-  The only required key is `url`. `POST` is the default method.
+It should return an object with `{ url (string), method (string), body, fields (object), headers (object), meta (object) }`.
 
-  If you pass your own request `body`, `useXhr` uploads it using `xhr.send`.
+The only required key is `url`. `POST` is the default method.
+
+If you pass your own request `body`, `useXhr` uploads it using `xhr.send`.
 
 #### `maxFiles: Number`
-  Maximum of files.
+
+Maximum of files.
 
 #### `maxSizeBytes: Number`
-  Maximum file size (in bytes).
+
+Maximum file size (in bytes).
 
 #### `minFiles: Number`
-  Minimum of files,
+
+Minimum of files,
 
 #### `mainizeBytes: Number`
-  Minimum file size (in bytes).
+
+Minimum file size (in bytes).
 
 #### `multiple: Boolean`
-  Allow uploading (or selection from the file dialog) of multiple files.
+
+Allow uploading (or selection from the file dialog) of multiple files.
 
 #### `noClick: Boolean`
-  If true, disables click to open the native file selection dialog.
+
+If true, disables click to open the native file selection dialog.
 
 #### `timeout: Number`
-  A time in milliseconds. If the request does not succeed within the given time, it gets canceled. A falsy value will skip a timeout.
+
+A time in milliseconds. If the request does not succeed within the given time, it gets canceled. A falsy value will skip a timeout.
 
 #### `validate: Function`
-  **Argumens**: fileWithMeta
 
-  A callback that receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected.
+**Argumens**: fileWithMeta
+
+A callback that receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected.
 
 ## The `files`object
 
@@ -191,26 +204,26 @@ The `files` object provides information about the current uploads and methods to
 
 ```js
 [
-    {
-        meta: {
-            name, // Filename
-            size, // Filesize in bytes
-            type, // Filetype
-            lastModifiedDate,
-            uploadedDate,
-            progress, // Upload progress in percent
-            id, // Unique file id
-            estimated, // Estimated time until upload is finished
-            status, // Current upload status
-            previewUrl,
-            width,
-            height,
-        },
-        cancel, // A method to cancel upload
-        restart, // A method to restart upload
-        remove, // A method to remove file from upload list
-    }
-]
+  {
+    meta: {
+      name, // Filename
+      size, // Filesize in bytes
+      type, // Filetype
+      lastModifiedDate,
+      uploadedDate,
+      progress, // Upload progress in percent
+      id, // Unique file id
+      estimated, // Estimated time until upload is finished
+      status, // Current upload status
+      previewUrl,
+      width,
+      height
+    },
+    cancel, // A method to cancel upload
+    restart, // A method to restart upload
+    remove // A method to remove file from upload list
+  }
+];
 ```
 
 ## License
