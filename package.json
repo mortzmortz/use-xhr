@@ -1,6 +1,6 @@
 {
   "name": "use-xhr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React hook for chunked file upload",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
