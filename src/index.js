@@ -27,7 +27,7 @@ function useXhr({
   chunkSize = 512 * 1024,
   getFilesFromEvent = defaultGetFilesFromEvent,
   getDataTransferItemsFromEvent = defaultGetFilesFromEvent,
-}) {
+} = {}) {
   const xhrs = React.useRef([]);
   const mountedRef = React.useRef(true);
   const inputRef = React.useRef(null);
