@@ -259,6 +259,6 @@ $ npm run release
 # Push to Gitlab along with the new tag:
 $ git push origin master --follow-tags
 
-# Publish the new version to `nexus`:
+# Publish the new version to `npm`:
 $ npm publish
 ```
