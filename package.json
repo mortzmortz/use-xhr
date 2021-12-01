@@ -1,6 +1,6 @@
 {
   "name": "use-xhr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React hook for chunked file upload",
   "repository": "mortzmortz/use-xhr",
   "homepage": "http://github.com/mortzmortz/use-xhr",
