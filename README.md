@@ -22,13 +22,16 @@
     - [`maxFiles: Number`](#maxfiles-number)
     - [`maxSizeBytes: Number`](#maxsizebytes-number)
     - [`minFiles: Number`](#minfiles-number)
-    - [`mainizeBytes: Number`](#mainizebytes-number)
+    - [`minSizeBytes: Number`](#minsizebytes-number)
     - [`multiple: Boolean`](#multiple-boolean)
     - [`noClick: Boolean`](#noclick-boolean)
     - [`timeout: Number`](#timeout-number)
     - [`validate: Function`](#validate-function)
+    - [`onFileUploaded: Function`](#onfileuploaded-function)
 - [The `files`object](#the-filesobject)
+- [The `rejectedFiles` object](#the-rejectedfiles-object)
 - [License](#license)
+- [Releases](#releases)
 
 </p>
 </details>
@@ -48,11 +51,11 @@ Please note that `use-xhr` requires `react@^16.8.0` as a peer dependency.
 ### Basic Usage
 
 ```jsx
-import useXhr from "useXhr";
+import useXhr from 'use-xhr';
 
 function Upload({ url }) {
   const { getRootProps, getInputProps, isDragActive } = useXhr({
-    getUploadParams: { url }
+    getUploadParams: { url },
   });
 
   return (
@@ -73,11 +76,12 @@ function Upload({ url }) {
 And their default values.
 
 ```js
-import useXhr from 'useXhr';
+import useXhr from 'use-xhr';
 
 function Upload() {
   const {
     files,
+    rejectedFiles,
     extra: {
       accept,
       multiple,
@@ -91,6 +95,7 @@ function Upload() {
     isDragReject,
     isFocus,
     inputRef,
+    uploadAll,
   } = useXhr(
     {
       accept = '*',
@@ -109,6 +114,7 @@ function Upload() {
       noClick = false,
       timeout = 0,
       validate = noop,
+      onFileUploaded = noop,
     }
   );
 
@@ -176,7 +182,7 @@ Maximum file size (in bytes).
 
 Minimum of files,
 
-#### `mainizeBytes: Number`
+#### `minSizeBytes: Number`
 
 Minimum file size (in bytes).
 
@@ -198,6 +204,12 @@ A time in milliseconds. If the request does not succeed within the given time, i
 
 A callback that receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected.
 
+#### `onFileUploaded: Function`
+
+**Argumens**: successFile, allFiles
+
+A callback which is triggered after every single file upload. It receives the current uploaded `fileWithMeta` object and all files in the upload queue.
+
 ## The `files`object
 
 The `files` object provides information about the current uploads and methods to `cancel`, `restart` or `remove` files.
@@ -215,17 +227,38 @@ The `files` object provides information about the current uploads and methods to
       id, // Unique file id
       estimated, // Estimated time until upload is finished
       status, // Current upload status
-      previewUrl,
-      width,
-      height
+      previewUrl, // For images, from URL.createObjectURL
+      width, // For images
+      height, // For images
+      videoWidth, // For videos
+      videoHeight, // For videos
     },
     cancel, // A method to cancel upload
     restart, // A method to restart upload
-    remove // A method to remove file from upload list
-  }
+    remove, // A method to remove file from upload list
+  },
 ];
 ```
+
+## The `rejectedFiles` object
+
+The `rejectedFiles` object contains a `file` and an `errors` property, which provides useful information why this file was rejected.
 
 ## License
 
 MIT
+
+## Releases
+
+This is our current release process.
+
+```bash
+# This will update the `CHANGELOG`, bumping the version and git tags locally:
+$ npm run release
+
+# Push to Gitlab along with the new tag:
+$ git push origin master --follow-tags
+
+# Publish the new version to `nexus`:
+$ npm publish
+```

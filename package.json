@@ -2,80 +2,118 @@
   "name": "use-xhr",
   "version": "0.0.2",
   "description": "React hook for chunked file upload",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
   "repository": "mortzmortz/use-xhr",
   "homepage": "http://github.com/mortzmortz/use-xhr",
   "author": "Gerion Herbst",
   "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "keywords": [
     "react",
     "hooks",
+    "xhr",
     "file-upload",
     "chunk-upload"
   ],
   "scripts": {
-    "build": "rollup -c",
-    "build:dev": "rollup -c -w",
-    "test": "jest src --coverage --colors --passWithNoTests",
-    "test:watch": "jest src --watch",
-    "test:all": "yarn lint && yarn test",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "clean": "rm -rf dist",
-    "lint": "eslint src",
-    "prepack": "yarn clean && yarn build"
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "build:watch": "rollup -c -w",
+    "export": "npm pack",
+    "release": "standard-version",
+    "prepack": "npm run clean && npm run build && npm test",
+    "test": "jest lib --coverage --colors --passWithNoTests",
+    "test:watch": "jest lib --watch",
+    "analyze": "npx source-map-explorer 'dist/esm/*.js'",
+    "check": "npx npm-check --update",
+    "lint": "eslint lib",
+    "clean": "rm -rf dist"
   },
-  "files": [
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  },
+  "dependencies": {
+    "attr-accept": "^2.2.2",
+    "file-selector": "^0.2.4",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "7.16.0",
+    "@babel/preset-typescript": "7.16.0",
+    "@rollup/plugin-babel": "5.3.0",
+    "@rollup/plugin-node-resolve": "13.0.6",
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react-hooks": "7.0.2",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
+    "babel-eslint": "10.1.0",
+    "babel-loader": "8.2.3",
+    "cross-env": "7.0.3",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-config-react-app": "6.0.0",
+    "eslint-plugin-flowtype": "5.10.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "4.3.0",
+    "jest": "^27.4.2",
+    "prettier": "^2.5.0",
+    "rollup": "^2.60.2",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "standard-version": "9.3.2",
+    "typescript": "4.4.4"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "avoid",
+    "bracketSpacing": true
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "react-app",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "trailingComma": "es5",
+          "arrowParens": "avoid",
+          "bracketSpacing": true
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
     "dist"
   ],
   "jest": {
+    "testEnvironment": "jsdom",
     "watchPathIgnorePatterns": [
       "dist"
     ],
-    "collectCoverageFrom": [
-      "src/**.js"
-    ],
     "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
+      "<rootDir>/setup.tests.js"
     ]
-  },
-  "peerDependencies": {
-    "react": "^16.8.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react-hooks": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "1.x",
-    "@typescript-eslint/parser": "1.x",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "10.x",
-    "coveralls": "^3.0.6",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-config-react-app": "^5.0.1",
-    "eslint-plugin-flowtype": "3.x",
-    "eslint-plugin-import": "2.x",
-    "eslint-plugin-jsx-a11y": "6.x",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "7.x",
-    "eslint-plugin-react-hooks": "1.x",
-    "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.9.0",
-    "rollup": "^1.20.2",
-    "rollup-plugin-babel": "^4.0.3",
-    "rollup-plugin-commonjs": "^10.0.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.1"
-  },
-  "dependencies": {
-    "uuid": "^3.3.3"
   }
 }
